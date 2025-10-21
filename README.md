@@ -2,7 +2,7 @@
 
 ![SQL](https://img.shields.io/badge/SQL-MySQL%208.0%2B-4479A1?logo=mysql&logoColor=white) ![License](https://img.shields.io/badge/license-BlackCat%20Proprietary-red) ![Status](https://img.shields.io/badge/status-stable-informational) ![Generated](https://img.shields.io/badge/generated-from%20schema--map-blue)
 
-> Schema package for table **notifications** (repo: $slug).
+> Schema package for table **notifications** (repo: `notifications`).
 
 ## Files
 ```
@@ -39,10 +39,10 @@ mysql -h 127.0.0.1 -P 3307 -u root -proot app < schema/030_foreign_keys.sql
 |-------:|:-----|:----:|:--------|:------|
 | id | BIGINT UNSIGNED | — | — | AUTO_INCREMENT, PK |
 | user_id | BIGINT UNSIGNED | YES | — |  |
-| channel | ENUM(''email'',''push'') | NO | — |  |
+| channel | ENUM('email','push') | NO | — |  |
 | template | VARCHAR(100) | NO | — |  |
 | payload | JSON | YES | — |  |
-| status | ENUM(''pending'',''processing'',''sent'',''failed'') | NO | '' |  |
+| status | ENUM('pending','processing','sent','failed') | NO | '' |  |
 | retries | INT | NO | 0 |  |
 | max_retries | INT | NO | 6 |  |
 | next_attempt_at | DATETIME(6) | YES | — |  |
@@ -62,24 +62,24 @@ mysql -h 127.0.0.1 -P 3307 -u root -proot app < schema/030_foreign_keys.sql
 ```mermaid
 erDiagram
   NOTIFICATIONS {
-    BIGINT id PK
-    BIGINT user_id
-    ENUM(''email'',''push'') channel
-    VARCHAR(100) template
+    INT id PK
+    INT user_id
+    ENUM channel
+    VARCHAR template
     JSON payload
-    ENUM(''pending'',''processing'',''sent'',''failed'') status
+    ENUM status
     INT retries
     INT max_retries
-    DATETIME(6) next_attempt_at
-    DATETIME(6) scheduled_at
-    DATETIME(6) sent_at
-    TEXT error
-    DATETIME(6) last_attempt_at
-    DATETIME(6) locked_until
-    VARCHAR(100) locked_by
+    DATETIME next_attempt_at
+    DATETIME scheduled_at
+    DATETIME sent_at
+    VARCHAR error
+    DATETIME last_attempt_at
+    DATETIME locked_until
+    VARCHAR locked_by
     INT priority
-    DATETIME(6) created_at
-    DATETIME(6) updated_at
+    DATETIME created_at
+    DATETIME updated_at
   }
   NOTIFICATIONS }o--|| USERS : "user_id"
 ```

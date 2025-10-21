@@ -81,7 +81,7 @@ erDiagram
     DATETIME(6) created_at
     DATETIME(6) updated_at
   }
-  NOTIFICATIONS }o--|| USERS : (user_id)
+  NOTIFICATIONS }o--|| USERS : "user_id"
 ```
 
 ## Indexes

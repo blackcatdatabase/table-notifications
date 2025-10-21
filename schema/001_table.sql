@@ -1,0 +1,25 @@
+-- Auto-generated from schema-map.psd1 on 2025-10-21T02:32:05
+-- table: notifications
+CREATE TABLE IF NOT EXISTS notifications (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT UNSIGNED NULL,
+  channel ENUM(''email'',''push'') NOT NULL,
+  template VARCHAR(100) NOT NULL,
+  payload JSON NULL,
+  status ENUM(''pending'',''processing'',''sent'',''failed'') NOT NULL DEFAULT ''pending'',
+  retries INT NOT NULL DEFAULT 0,
+  max_retries INT NOT NULL DEFAULT 6,
+  next_attempt_at DATETIME(6) NULL,
+  scheduled_at DATETIME(6) NULL,
+  sent_at DATETIME(6) NULL,
+  error TEXT NULL,
+  last_attempt_at DATETIME(6) NULL,
+  locked_until DATETIME(6) NULL,
+  locked_by VARCHAR(100) NULL,
+  priority INT NOT NULL DEFAULT 0,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  INDEX idx_notifications_status_scheduled (status, scheduled_at),
+  INDEX idx_notifications_next_attempt (next_attempt_at),
+  INDEX idx_notifications_locked_until (locked_until)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

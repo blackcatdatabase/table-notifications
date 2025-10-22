@@ -11,7 +11,7 @@ Outbox for templated user notifications.
 | channel | ENUM('email','push') | NO | — | Delivery channel. | enum: email, push |
 | template | VARCHAR(100) | NO | — | Template identifier. |  |
 | payload | JSON | YES | — | JSON payload for template rendering. |  |
-| status | ENUM('pending','processing','sent','failed') | NO | ''pending'' | Processing status. | enum: pending, processing, sent, failed |
+| status | ENUM('pending','processing','sent','failed') | NO | 'pending' | Processing status. | enum: pending, processing, sent, failed |
 | retries | INT | NO | 0 | Attempt counter. |  |
 | max_retries | INT | NO | 6 | Maximum attempts. |  |
 | next_attempt_at | DATETIME(6) | YES | — | Backoff until (UTC). |  |

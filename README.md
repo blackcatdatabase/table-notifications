@@ -44,7 +44,7 @@ mysql -h 127.0.0.1 -P 3307 -u root -proot app < schema/030_foreign_keys.sql
 | channel | ENUM('email','push') | NO | — |  |
 | template | VARCHAR(100) | NO | — |  |
 | payload | JSON | YES | — |  |
-| status | ENUM('pending','processing','sent','failed') | NO | '' |  |
+| status | ENUM('pending','processing','sent','failed') | NO | 'pending' |  |
 | retries | INT | NO | 0 |  |
 | max_retries | INT | NO | 6 |  |
 | next_attempt_at | DATETIME(6) | YES | — |  |

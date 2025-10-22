@@ -3,10 +3,10 @@
 CREATE TABLE IF NOT EXISTS notifications (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id BIGINT UNSIGNED NULL,
-  channel ENUM(''email'',''push'') NOT NULL,
+  channel ENUM('email','push') NOT NULL,
   template VARCHAR(100) NOT NULL,
   payload JSON NULL,
-  status ENUM(''pending'',''processing'',''sent'',''failed'') NOT NULL DEFAULT ''pending'',
+  status ENUM('pending','processing','sent','failed') NOT NULL DEFAULT 'pending',
   retries INT NOT NULL DEFAULT 0,
   max_retries INT NOT NULL DEFAULT 6,
   next_attempt_at DATETIME(6) NULL,

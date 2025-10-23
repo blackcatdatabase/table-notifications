@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BlackCat\Database\Packages\Notifications\Service;
 
-use BlackCat\Core\Database\Database;
+use BlackCat\Core\Database;
 use BlackCat\Database\Packages\Notifications\Dto\NotificationDto;
 use BlackCat\Database\Packages\Notifications\Mapper\NotificationDtoMapper;
 use BlackCat\Database\Packages\Notifications\Repository\NotificationRepository;

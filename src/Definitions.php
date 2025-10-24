@@ -6,7 +6,7 @@ namespace BlackCat\Database\Packages\Notifications;
 final class Definitions {
     // --- základní metadata ---
     public static function table(): string { return 'notifications'; }
-    public static function contractView(): string { return 'v_notifications_contract'; }
+    public static function contractView(): string { return 'vw_notifications'; }
     /** @return string[] */
     public static function columns(): array { return [ 'id', 'user_id', 'channel', 'template', 'payload', 'status', 'retries', 'max_retries', 'next_attempt_at', 'scheduled_at', 'sent_at', 'error', 'last_attempt_at', 'locked_until', 'locked_by', 'priority', 'created_at', 'updated_at' ]; }
     public static function pk(): string { return 'id'; }

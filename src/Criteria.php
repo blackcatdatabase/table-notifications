@@ -6,7 +6,7 @@ namespace BlackCat\Database\Packages\Notifications;
 /**
  * Bezpečný builder WHERE/ORDER/LIMIT.
  * - whitelist filtrů: [ 'id', 'user_id', 'channel', 'template', 'payload', 'status', 'retries', 'max_retries', 'next_attempt_at', 'scheduled_at', 'sent_at', 'error', 'last_attempt_at', 'locked_until', 'locked_by', 'priority', 'created_at', 'updated_at' ]
- * - whitelist pro LIKE hledání: [ 'template', 'error', 'locked_by' ]
+ * - whitelist pro LIKE hledání: [ 'channel', 'template', 'status', 'error', 'locked_by' ]
  */
 final class Criteria {
     /** @var array<string,mixed> */
@@ -61,7 +61,7 @@ final class Criteria {
 
         // fulltext/LIKE (přes whitelist)
         if ($this->search !== null) {
-            $searchCols = [ 'template', 'error', 'locked_by' ];
+            $searchCols = [ 'channel', 'template', 'status', 'error', 'locked_by' ];
             $likeParts = [];
             foreach ($searchCols as $i=>$c) {
                 if ($c === '') continue;

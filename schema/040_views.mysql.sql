@@ -1,8 +1,9 @@
--- Auto-generated from schema-views-mysql.psd1 (map@mtime:2025-10-24T09:19:46Z)
+-- Auto-generated from schema-views-mysql.psd1 (map@38d5403)
 -- engine: mysql
 -- table:  notifications
 -- Contract view for [notifications]
-CREATE OR REPLACE VIEW vw_notifications AS
+-- Adds is_locked helper.
+CREATE OR REPLACE SQL SECURITY INVOKER VIEW vw_notifications AS
 SELECT
   id,
   user_id,
@@ -18,6 +19,7 @@ SELECT
   error,
   last_attempt_at,
   locked_until,
+  (locked_until IS NOT NULL AND locked_until > NOW()) AS is_locked,
   locked_by,
   priority,
   created_at,

@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-mysql.psd1 (map@mtime:2025-10-24T09:13:35Z)
+-- Auto-generated from schema-map-mysql.psd1 (map@38d5403)
 -- engine: mysql
 -- table:  notifications
 CREATE TABLE IF NOT EXISTS notifications (
@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS notifications (
   priority INT NOT NULL DEFAULT 0,
   created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  version INT UNSIGNED NOT NULL DEFAULT 0,
   INDEX idx_notifications_status_scheduled (status, scheduled_at),
   INDEX idx_notifications_next_attempt (next_attempt_at),
   INDEX idx_notifications_locked_until (locked_until)

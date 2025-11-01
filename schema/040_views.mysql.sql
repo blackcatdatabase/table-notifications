@@ -1,9 +1,9 @@
--- Auto-generated from schema-views-mysql.psd1 (map@38d5403)
+-- Auto-generated from schema-views-mysql.psd1 (map@c5e4097)
 -- engine: mysql
 -- table:  notifications
 -- Contract view for [notifications]
 -- Adds is_locked helper.
-CREATE OR REPLACE SQL SECURITY INVOKER VIEW vw_notifications AS
+CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_notifications AS
 SELECT
   id,
   user_id,
@@ -23,5 +23,6 @@ SELECT
   locked_by,
   priority,
   created_at,
-  updated_at
+  updated_at,
+  version
 FROM notifications;

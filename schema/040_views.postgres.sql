@@ -1,4 +1,4 @@
--- Auto-generated from schema-views-postgres.psd1 (map@38d5403)
+-- Auto-generated from schema-views-postgres.psd1 (map@c5e4097)
 -- engine: postgres
 -- table:  notifications
 -- Contract view for [notifications]
@@ -19,9 +19,10 @@ SELECT
   error,
   last_attempt_at,
   locked_until,
-  (locked_until IS NOT NULL AND locked_until > now()) AS is_locked,
+  CASE WHEN (locked_until IS NOT NULL AND locked_until > now()) THEN 1 ELSE 0 END AS is_locked,
   locked_by,
   priority,
   created_at,
-  updated_at
+  updated_at,
+  version
 FROM notifications;

@@ -17,7 +17,7 @@ use BlackCat\Database\Support\DtoHydrator;
 final class NotificationDtoMapper
 {
     /** @var array<string,string> Column -> DTO property */
-    private const COL_TO_PROP = [ 'tenant_id' => 'tenantId', 'user_id' => 'userId', 'max_retries' => 'maxRetries', 'next_attempt_at' => 'nextAttemptAt', 'scheduled_at' => 'scheduledAt', 'sent_at' => 'sentAt', 'last_attempt_at' => 'lastAttemptAt', 'locked_until' => 'lockedUntil', 'locked_by' => 'lockedBy', 'created_at' => 'createdAt', 'updated_at' => 'updatedAt' ];
+    private const COL_TO_PROP = [ 'id' => 'id', 'tenant_id' => 'tenantId', 'user_id' => 'userId', 'channel' => 'channel', 'template' => 'template', 'payload' => 'payload', 'status' => 'status', 'retries' => 'retries', 'max_retries' => 'maxRetries', 'next_attempt_at' => 'nextAttemptAt', 'scheduled_at' => 'scheduledAt', 'sent_at' => 'sentAt', 'error' => 'error', 'last_attempt_at' => 'lastAttemptAt', 'locked_until' => 'lockedUntil', 'locked_by' => 'lockedBy', 'priority' => 'priority', 'created_at' => 'createdAt', 'updated_at' => 'updatedAt', 'version' => 'version' ];
 
     /** @var string[] */
     private const BOOL_COLS   = [];

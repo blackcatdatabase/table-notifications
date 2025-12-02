@@ -1,4 +1,4 @@
--- Auto-generated from joins-postgres.psd1 (map@mtime:2025-11-27T17:17:38Z)
+-- Auto-generated from joins-postgres.yaml (map@94ebe6c)
 -- engine: postgres
 -- view:   notifications_queue_metrics
 
@@ -14,7 +14,7 @@ FROM notifications
 GROUP BY channel, status
 ORDER BY channel, status;
 
--- Auto-generated from joins-postgres.psd1 (map@mtime:2025-11-27T17:17:38Z)
+-- Auto-generated from joins-postgres.yaml (map@94ebe6c)
 -- engine: postgres
 -- view:   notifications_due
 
@@ -30,6 +30,6 @@ SELECT
   EXTRACT(EPOCH FROM (now() - n.created_at)) AS age_sec,
   EXTRACT(EPOCH FROM (now() - COALESCE(n.last_attempt_at, n.created_at))) AS idle_sec
 FROM notifications n
-WHERE n.status IN (''pending'',''processing'')
+WHERE n.status IN ($$pending$$,$$processing$$)
   AND (n.next_attempt_at IS NULL OR n.next_attempt_at <= now());
 

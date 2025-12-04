@@ -1,4 +1,4 @@
--- Auto-generated from joins-postgres.yaml (map@94ebe6c)
+-- Auto-generated from joins-postgres.yaml (map@85230ed)
 -- engine: postgres
 -- view:   notifications_queue_metrics
 
@@ -14,7 +14,7 @@ FROM notifications
 GROUP BY channel, status
 ORDER BY channel, status;
 
--- Auto-generated from joins-postgres.yaml (map@94ebe6c)
+-- Auto-generated from joins-postgres.yaml (map@85230ed)
 -- engine: postgres
 -- view:   notifications_due
 

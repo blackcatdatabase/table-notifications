@@ -1,4 +1,4 @@
--- Auto-generated from joins-mysql.yaml (map@94ebe6c)
+-- Auto-generated from joins-mysql.yaml (map@85230ed)
 -- engine: mysql
 -- view:   notifications_queue_metrics
 
@@ -33,7 +33,7 @@ LEFT JOIN ranked r
   ON r.channel = b.channel AND r.status = b.status
 GROUP BY b.channel, b.status, b.total, b.due_now;
 
--- Auto-generated from joins-mysql.yaml (map@94ebe6c)
+-- Auto-generated from joins-mysql.yaml (map@85230ed)
 -- engine: mysql
 -- view:   notifications_due
 

@@ -1,5 +1,21 @@
 -- Auto-generated from joins-postgres.yaml (map@85230ed)
 -- engine: postgres
+-- view:   notifications_queue_metrics
+
+-- Queue metrics for [notifications]
+CREATE OR REPLACE VIEW vw_notifications_queue_metrics AS
+SELECT
+  channel,
+  status,
+  COUNT(*) AS total,
+  COUNT(*) FILTER (WHERE status IN ('pending','processing') AND (next_attempt_at IS NULL OR next_attempt_at <= now())) AS due_now,
+  PERCENTILE_DISC(0.95) WITHIN GROUP (ORDER BY EXTRACT(EPOCH FROM (now() - COALESCE(last_attempt_at, created_at)))) AS p95_age_sec
+FROM notifications
+GROUP BY channel, status
+ORDER BY channel, status;
+
+-- Auto-generated from joins-postgres.yaml (map@85230ed)
+-- engine: postgres
 -- view:   notifications_due
 
 -- Notifications due for sending (pending/processing and due_now)
@@ -16,20 +32,4 @@ SELECT
 FROM notifications n
 WHERE n.status IN ($$pending$$,$$processing$$)
   AND (n.next_attempt_at IS NULL OR n.next_attempt_at <= now());
-
--- Auto-generated from joins-postgres.yaml (map@85230ed)
--- engine: postgres
--- view:   notifications_queue_metrics
-
--- Queue metrics for [notifications]
-CREATE OR REPLACE VIEW vw_notifications_queue_metrics AS
-SELECT
-  channel,
-  status,
-  COUNT(*) AS total,
-  COUNT(*) FILTER (WHERE status IN ('pending','processing') AND (next_attempt_at IS NULL OR next_attempt_at <= now())) AS due_now,
-  PERCENTILE_DISC(0.95) WITHIN GROUP (ORDER BY EXTRACT(EPOCH FROM (now() - COALESCE(last_attempt_at, created_at)))) AS p95_age_sec
-FROM notifications
-GROUP BY channel, status
-ORDER BY channel, status;
 

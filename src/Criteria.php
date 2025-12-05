@@ -38,7 +38,7 @@ final class Criteria extends BaseCriteria
     /** Columns used for full-text LIKE/ILIKE searches. */
     protected function searchable(): array
     {
-        return [ 'channel', 'template', 'status', 'error', 'locked_by' ];
+        return [ 'template', 'error', 'locked_by' ];
     }
 
 /** Columns allowed in ORDER BY (falls back to filterable() when empty). */

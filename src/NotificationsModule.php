@@ -122,7 +122,7 @@ SQL;
         $hasView  = SchemaIntrospector::hasView($db, $d, $view);
 
         // Quick index/FK check â€“ generator injects names (case-sensitive per DB)
-        $expectedIdx = [ 'gin_notifications_payload', 'idx_notifications_locked_until_active', 'idx_notifications_next_attempt', 'idx_notifications_status_scheduled', 'idx_notifications_tenant_status_sched' ];
+        $expectedIdx = [];
         if ($d->isMysql()) {
             // Drop PG-only index naming patterns (e.g., GIN/GiST)
             $expectedIdx = array_values(array_filter(
@@ -155,7 +155,7 @@ SQL;
             'columns'     => Definitions::columns(),
             'version'     => $this->version(),
             'dialects'    => [ 'mysql', 'postgres' ],
-            'indexes'     => [ 'gin_notifications_payload', 'idx_notifications_locked_until_active', 'idx_notifications_next_attempt', 'idx_notifications_status_scheduled', 'idx_notifications_tenant_status_sched' ],
+            'indexes'     => [],
             'foreignKeys' => [ 'fk_notifications_tenant', 'fk_notifications_user' ],
         ];
     }

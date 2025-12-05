@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-mysql.yaml (map@74ce4f4)
+-- Auto-generated from schema-map-mysql.yaml (map@sha1:5E62933580349BE7C623D119AC9D1301A62F03EF)
 -- engine: mysql
 -- table:  notifications
 
@@ -26,5 +26,5 @@ CREATE TABLE IF NOT EXISTS notifications (
   INDEX idx_notifications_status_scheduled (status, scheduled_at),
   INDEX idx_notifications_tenant_status_sched (tenant_id, status, scheduled_at),
   INDEX idx_notifications_next_attempt (next_attempt_at),
-  INDEX idx_notifications_locked_until (locked_until)
+  INDEX idx_notifications_locked_until_active (locked_until)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;

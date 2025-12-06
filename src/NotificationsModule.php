@@ -32,15 +32,69 @@ final class NotificationsModule implements ModuleInterface
         $table = SqlIdentifier::qi($db, $this->table());
         $view  = SqlIdentifier::qi($db, self::contractView());
 
+        if ($d->isMysql()) {
+            $createViewSql = <<<'SQL'
+CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_notifications AS
+SELECT
+  id,
+  tenant_id,
+  user_id,
+  channel,
+  template,
+  payload,
+  status,
+  retries,
+  max_retries,
+  next_attempt_at,
+  scheduled_at,
+  sent_at,
+  error,
+  last_attempt_at,
+  locked_until,
+  (locked_until IS NOT NULL AND locked_until > NOW()) AS is_locked,
+  locked_by,
+  priority,
+  created_at,
+  updated_at,
+  version
+FROM notifications;
+SQL;
+        } else {
+            $createViewSql = <<<'SQL'
+CREATE OR REPLACE VIEW vw_notifications AS
+SELECT
+  id,
+  tenant_id,
+  user_id,
+  channel,
+  template,
+  payload,
+  status,
+  retries,
+  max_retries,
+  next_attempt_at,
+  scheduled_at,
+  sent_at,
+  error,
+  last_attempt_at,
+  locked_until,
+  (locked_until IS NOT NULL AND locked_until > now()) AS is_locked,
+  locked_by,
+  priority,
+  created_at,
+  updated_at,
+  version
+FROM notifications;
+SQL;
+        }
+
         if (\class_exists('\\BlackCat\\Database\\Support\\DdlGuard')) {
-            (new \BlackCat\Database\Support\DdlGuard($db, $d))->applyCreateView(
-                "CREATE VIEW {$view} AS SELECT * FROM {$table}"
-            );
+            (new \BlackCat\Database\Support\DdlGuard($db, $d))->applyCreateView($createViewSql);
         } else {
             // Prefer CREATE OR REPLACE VIEW (gentle on dependencies)
-            $sql = "CREATE OR REPLACE VIEW {$view} AS SELECT * FROM {$table}";
-            $db->exec($sql);
+            $db->exec($createViewSql);
         }
+
     }
 
     public function upgrade(Database $db, SqlDialect $d, string $from): void
@@ -67,8 +121,15 @@ final class NotificationsModule implements ModuleInterface
         $hasTable = SchemaIntrospector::hasTable($db, $d, $table);
         $hasView  = SchemaIntrospector::hasView($db, $d, $view);
 
-        // Quick index/FK check – generator injects names (case-sensitive per DB)
-        $expectedIdx = [];
+        // Quick index/FK check â€“ generator injects names (case-sensitive per DB)
+        $expectedIdx = [ 'idx_notifications_locked_until_active', 'idx_notifications_next_attempt', 'idx_notifications_status_scheduled', 'idx_notifications_tenant_status_sched' ];
+        if ($d->isMysql()) {
+            // Drop PG-only index naming patterns (e.g., GIN/GiST)
+            $expectedIdx = array_values(array_filter(
+                $expectedIdx,
+                static fn(string $n): bool => !str_starts_with($n, 'gin_') && !str_starts_with($n, 'gist_')
+            ));
+        }
         $expectedFk  = [ 'fk_notifications_tenant', 'fk_notifications_user' ];
 
         $haveIdx = $hasTable ? SchemaIntrospector::listIndexes($db, $d, $table)     : [];
@@ -94,7 +155,7 @@ final class NotificationsModule implements ModuleInterface
             'columns'     => Definitions::columns(),
             'version'     => $this->version(),
             'dialects'    => [ 'mysql', 'postgres' ],
-            'indexes'     => [],
+            'indexes'     => [ 'idx_notifications_locked_until_active', 'idx_notifications_next_attempt', 'idx_notifications_status_scheduled', 'idx_notifications_tenant_status_sched' ],
             'foreignKeys' => [ 'fk_notifications_tenant', 'fk_notifications_user' ],
         ];
     }

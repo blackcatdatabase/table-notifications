@@ -1,41 +1,7 @@
--- Auto-generated from schema-views-mysql.psd1 (map@62c9c93)
--- engine: mysql
--- table:  notifications_queue_metrics
--- Queue metrics for [notifications]
-CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_notifications_queue_metrics AS
-WITH base AS (
-  SELECT
-    channel,
-    status,
-    COUNT(*) AS total,
-    SUM(CASE WHEN status IN ('pending','processing') AND (next_attempt_at IS NULL OR next_attempt_at <= NOW())
-             THEN 1 ELSE 0 END) AS due_now
-  FROM notifications
-  GROUP BY channel, status
-),
-ranked AS (
-  SELECT
-    channel,
-    status,
-    TIMESTAMPDIFF(SECOND, COALESCE(last_attempt_at, created_at), NOW()) AS age_sec,
-    ROW_NUMBER() OVER (PARTITION BY channel, status ORDER BY TIMESTAMPDIFF(SECOND, COALESCE(last_attempt_at, created_at), NOW())) AS rn,
-    COUNT(*) OVER (PARTITION BY channel, status) AS cnt
-  FROM notifications
-)
-SELECT
-  b.channel,
-  b.status,
-  b.total,
-  b.due_now,
-  MAX(CASE WHEN r.rn = CEIL(0.95 * r.cnt) THEN r.age_sec END) AS p95_age_sec
-FROM base b
-LEFT JOIN ranked r
-  ON r.channel = b.channel AND r.status = b.status
-GROUP BY b.channel, b.status, b.total, b.due_now;
-
--- Auto-generated from schema-views-mysql.psd1 (map@62c9c93)
+-- Auto-generated from schema-views-mysql.yaml (map@sha1:A4E10261DACB7519F6FEA44ED77A92163429CA5E)
 -- engine: mysql
 -- table:  notifications
+
 -- Contract view for [notifications]
 -- Adds is_locked helper.
 CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_notifications AS
@@ -62,4 +28,3 @@ SELECT
   updated_at,
   version
 FROM notifications;
-

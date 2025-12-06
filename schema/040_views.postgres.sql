@@ -1,21 +1,7 @@
--- Auto-generated from schema-views-postgres.psd1 (map@62c9c93)
--- engine: postgres
--- table:  notifications_queue_metrics
--- Queue metrics for [notifications]
-CREATE OR REPLACE VIEW vw_notifications_queue_metrics AS
-SELECT
-  channel,
-  status,
-  COUNT(*) AS total,
-  COUNT(*) FILTER (WHERE status IN (''pending'',''processing'') AND (next_attempt_at IS NULL OR next_attempt_at <= now())) AS due_now,
-  PERCENTILE_DISC(0.95) WITHIN GROUP (ORDER BY EXTRACT(EPOCH FROM (now() - COALESCE(last_attempt_at, created_at)))) AS p95_age_sec
-FROM notifications
-GROUP BY channel, status
-ORDER BY channel, status;
-
--- Auto-generated from schema-views-postgres.psd1 (map@62c9c93)
+-- Auto-generated from schema-views-postgres.yaml (map@sha1:EDC13878AE5F346E7EAD2CF0A484FEB7E68F6CDD)
 -- engine: postgres
 -- table:  notifications
+
 -- Contract view for [notifications]
 -- Adds is_locked helper.
 CREATE OR REPLACE VIEW vw_notifications AS
@@ -42,4 +28,3 @@ SELECT
   updated_at,
   version
 FROM notifications;
-

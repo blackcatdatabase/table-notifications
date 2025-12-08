@@ -5,23 +5,23 @@ Outbox for templated user notifications.
 ## Columns
 | Column | Type | Null | Default | Description |
 | --- | --- | --- | --- | --- |
-| created_at | TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
+| created_at | DATETIME(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
 | error | TEXT | YES |  | Last error message. |
-| channel | TEXT | NO |  | Delivery channel. (enum: email, push) |
+| channel | ENUM('email','push') | NO |  | Delivery channel. (enum: email, push) |
 | id | BIGINT | NO |  | Surrogate primary key. |
-| last_attempt_at | TIMESTAMPTZ(6) | YES |  | Last attempt time (UTC). |
+| last_attempt_at | DATETIME(6) | YES |  | Last attempt time (UTC). |
 | locked_by | VARCHAR(100) | YES |  | Worker id that holds the lock. |
-| locked_until | TIMESTAMPTZ(6) | YES |  | Worker lock until (UTC). |
-| max_retries | INTEGER | NO | 6 | Maximum attempts. |
-| next_attempt_at | TIMESTAMPTZ(6) | YES |  | Backoff until (UTC). |
-| payload | JSONB | YES |  | JSON payload for template rendering. |
-| priority | INTEGER | NO | 0 | Priority (higher = sooner). |
-| retries | INTEGER | NO | 0 | Attempt counter. |
-| sent_at | TIMESTAMPTZ(6) | YES |  | Actual send time (UTC). |
-| scheduled_at | TIMESTAMPTZ(6) | YES |  | Scheduled send time (UTC). |
-| status | TEXT | NO | pending | Processing status. (enum: pending, processing, sent, failed) |
+| locked_until | DATETIME(6) | YES |  | Worker lock until (UTC). |
+| max_retries | INT | NO | 6 | Maximum attempts. |
+| next_attempt_at | DATETIME(6) | YES |  | Backoff until (UTC). |
+| payload | JSON | YES |  | JSON payload for template rendering. |
+| priority | INT | NO | 0 | Priority (higher = sooner). |
+| retries | INT | NO | 0 | Attempt counter. |
+| sent_at | DATETIME(6) | YES |  | Actual send time (UTC). |
+| scheduled_at | DATETIME(6) | YES |  | Scheduled send time (UTC). |
+| status | ENUM('pending','processing','sent','failed') | NO | pending | Processing status. (enum: pending, processing, sent, failed) |
 | template | VARCHAR(100) | NO |  | Template identifier. |
-| updated_at | TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Update timestamp (UTC). |
+| updated_at | DATETIME(6) | NO | CURRENT_TIMESTAMP(6) | Update timestamp (UTC). |
 | user_id | BIGINT | YES |  | Target user (optional). |
 
 ## Engine Details
@@ -64,9 +64,9 @@ Foreign keys:
 ## Views
 | View | Engine | Flags | File |
 | --- | --- | --- | --- |
-| vw_notifications | mysql | algorithm=MERGE, security=INVOKER | [packages\notifications\schema\040_views.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views.mysql.sql) |
-| vw_notifications_due | mysql | algorithm=MERGE, security=INVOKER | [packages\notifications\schema\040_views_joins.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views_joins.mysql.sql) |
-| vw_notifications_queue_metrics | mysql | algorithm=MERGE, security=INVOKER | [packages\notifications\schema\040_views_joins.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views_joins.mysql.sql) |
-| vw_notifications | postgres |  | [packages\notifications\schema\040_views.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views.postgres.sql) |
-| vw_notifications_due | postgres |  | [packages\notifications\schema\040_views_joins.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views_joins.postgres.sql) |
-| vw_notifications_queue_metrics | postgres |  | [packages\notifications\schema\040_views_joins.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views_joins.postgres.sql) |
+| vw_notifications | mysql | algorithm=MERGE, security=INVOKER | [schema\040_views.mysql.sql](schema\040_views.mysql.sql) |
+| vw_notifications_due | mysql | algorithm=MERGE, security=INVOKER | [schema\040_views_joins.mysql.sql](schema\040_views_joins.mysql.sql) |
+| vw_notifications_queue_metrics | mysql | algorithm=MERGE, security=INVOKER | [schema\040_views_joins.mysql.sql](schema\040_views_joins.mysql.sql) |
+| vw_notifications | postgres |  | [schema\040_views.postgres.sql](schema\040_views.postgres.sql) |
+| vw_notifications_due | postgres |  | [schema\040_views_joins.postgres.sql](schema\040_views_joins.postgres.sql) |
+| vw_notifications_queue_metrics | postgres |  | [schema\040_views_joins.postgres.sql](schema\040_views_joins.postgres.sql) |

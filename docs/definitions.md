@@ -1,0 +1,72 @@
+# notifications
+
+Outbox for templated user notifications.
+
+## Columns
+| Column | Type | Null | Default | Description |
+| --- | --- | --- | --- | --- |
+| created_at | TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
+| error | TEXT | YES |  | Last error message. |
+| channel | TEXT | NO |  | Delivery channel. (enum: email, push) |
+| id | BIGINT | NO |  | Surrogate primary key. |
+| last_attempt_at | TIMESTAMPTZ(6) | YES |  | Last attempt time (UTC). |
+| locked_by | VARCHAR(100) | YES |  | Worker id that holds the lock. |
+| locked_until | TIMESTAMPTZ(6) | YES |  | Worker lock until (UTC). |
+| max_retries | INTEGER | NO | 6 | Maximum attempts. |
+| next_attempt_at | TIMESTAMPTZ(6) | YES |  | Backoff until (UTC). |
+| payload | JSONB | YES |  | JSON payload for template rendering. |
+| priority | INTEGER | NO | 0 | Priority (higher = sooner). |
+| retries | INTEGER | NO | 0 | Attempt counter. |
+| sent_at | TIMESTAMPTZ(6) | YES |  | Actual send time (UTC). |
+| scheduled_at | TIMESTAMPTZ(6) | YES |  | Scheduled send time (UTC). |
+| status | TEXT | NO | pending | Processing status. (enum: pending, processing, sent, failed) |
+| template | VARCHAR(100) | NO |  | Template identifier. |
+| updated_at | TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Update timestamp (UTC). |
+| user_id | BIGINT | YES |  | Target user (optional). |
+
+## Engine Details
+
+### mysql
+
+Indexes:
+| Name | Columns | SQL |
+| --- | --- | --- |
+| idx_notifications_locked_until_active | locked_until | CREATE INDEX idx_notifications_locked_until_active ON notifications (locked_until) |
+| idx_notifications_next_attempt | next_attempt_at | CREATE INDEX idx_notifications_next_attempt ON notifications (next_attempt_at) |
+| idx_notifications_status_scheduled | status,scheduled_at | CREATE INDEX idx_notifications_status_scheduled ON notifications (status, scheduled_at) |
+| idx_notifications_tenant_status_sched | tenant_id,status,scheduled_at | CREATE INDEX idx_notifications_tenant_status_sched ON notifications (tenant_id, status, scheduled_at) |
+
+Foreign keys:
+| Name | Columns | References | Actions |
+| --- | --- | --- | --- |
+| fk_notifications_tenant | tenant_id | tenants(id) | ON DELETE RESTRICT |
+| fk_notifications_user | user_id | users(id) | ON DELETE CASCADE |
+
+### postgres
+
+Indexes:
+| Name | Columns | SQL |
+| --- | --- | --- |
+| gin_notifications_payload | payloadjsonb_path_ops | CREATE INDEX IF NOT EXISTS gin_notifications_payload ON notifications USING GIN (payload jsonb_path_ops) |
+| idx_notifications_locked_until_active | locked_until | CREATE INDEX IF NOT EXISTS idx_notifications_locked_until_active ON notifications (locked_until) WHERE status IN ('pending','processing') |
+| idx_notifications_next_attempt | next_attempt_at | CREATE INDEX IF NOT EXISTS idx_notifications_next_attempt ON notifications (next_attempt_at) |
+| idx_notifications_status_scheduled | status,scheduled_at | CREATE INDEX IF NOT EXISTS idx_notifications_status_scheduled ON notifications (status, scheduled_at) |
+| idx_notifications_tenant_status_sched | tenant_id,status,scheduled_at | CREATE INDEX IF NOT EXISTS idx_notifications_tenant_status_sched ON notifications (tenant_id, status, scheduled_at) |
+
+Foreign keys:
+| Name | Columns | References | Actions |
+| --- | --- | --- | --- |
+| fk_notifications_tenant | tenant_id | tenants(id) | ON DELETE RESTRICT |
+| fk_notifications_user | user_id | users(id) | ON DELETE CASCADE |
+
+## Engine differences
+
+## Views
+| View | Engine | Flags | File |
+| --- | --- | --- | --- |
+| vw_notifications | mysql | algorithm=MERGE, security=INVOKER | [packages\notifications\schema\040_views.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views.mysql.sql) |
+| vw_notifications_due | mysql | algorithm=MERGE, security=INVOKER | [packages\notifications\schema\040_views_joins.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views_joins.mysql.sql) |
+| vw_notifications_queue_metrics | mysql | algorithm=MERGE, security=INVOKER | [packages\notifications\schema\040_views_joins.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views_joins.mysql.sql) |
+| vw_notifications | postgres |  | [packages\notifications\schema\040_views.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views.postgres.sql) |
+| vw_notifications_due | postgres |  | [packages\notifications\schema\040_views_joins.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views_joins.postgres.sql) |
+| vw_notifications_queue_metrics | postgres |  | [packages\notifications\schema\040_views_joins.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/notifications/schema/040_views_joins.postgres.sql) |

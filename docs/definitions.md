@@ -5,24 +5,24 @@ Outbox for templated user notifications.
 ## Columns
 | Column | Type | Null | Default | Description |
 | --- | --- | --- | --- | --- |
-| template | VARCHAR(100) | NO |  | Template identifier. |
-| retries | mysql: INT / postgres: INTEGER | NO | 0 | Attempt counter. |
 | created_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
-| channel | mysql: ENUM('email','push') / postgres: TEXT | NO |  | Delivery channel. (enum: email, push) |
-| last_attempt_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Last attempt time (UTC). |
-| payload | mysql: JSON / postgres: JSONB | YES |  | JSON payload for template rendering. |
-| sent_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Actual send time (UTC). |
-| next_attempt_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Backoff until (UTC). |
-| locked_until | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Worker lock until (UTC). |
-| scheduled_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Scheduled send time (UTC). |
-| id | BIGINT | NO |  | Surrogate primary key. |
-| updated_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Update timestamp (UTC). |
-| priority | mysql: INT / postgres: INTEGER | NO | 0 | Priority (higher = sooner). |
-| status | mysql: ENUM('pending','processing','sent','failed') / postgres: TEXT | NO | pending | Processing status. (enum: pending, processing, sent, failed) |
 | error | TEXT | YES |  | Last error message. |
-| user_id | BIGINT | YES |  | Target user (optional). |
-| max_retries | mysql: INT / postgres: INTEGER | NO | 6 | Maximum attempts. |
+| channel | mysql: ENUM('email','push') / postgres: TEXT | NO |  | Delivery channel. (enum: email, push) |
+| id | BIGINT | NO |  | Surrogate primary key. |
+| last_attempt_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Last attempt time (UTC). |
 | locked_by | VARCHAR(100) | YES |  | Worker id that holds the lock. |
+| locked_until | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Worker lock until (UTC). |
+| max_retries | mysql: INT / postgres: INTEGER | NO | 6 | Maximum attempts. |
+| next_attempt_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Backoff until (UTC). |
+| payload | mysql: JSON / postgres: JSONB | YES |  | JSON payload for template rendering. |
+| priority | mysql: INT / postgres: INTEGER | NO | 0 | Priority (higher = sooner). |
+| retries | mysql: INT / postgres: INTEGER | NO | 0 | Attempt counter. |
+| sent_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Actual send time (UTC). |
+| scheduled_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Scheduled send time (UTC). |
+| status | mysql: ENUM('pending','processing','sent','failed') / postgres: TEXT | NO | pending | Processing status. (enum: pending, processing, sent, failed) |
+| template | VARCHAR(100) | NO |  | Template identifier. |
+| updated_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Update timestamp (UTC). |
+| user_id | BIGINT | YES |  | Target user (optional). |
 
 ## Engine Details
 

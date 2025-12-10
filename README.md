@@ -98,11 +98,13 @@ graph LR
 _No engine differences detected._
 
 ## Constraints Snapshot
-- `created_at` – default=CURRENT_TIMESTAMP(6)
 - `channel` – enum
+- `status` – default=pending, enum
+- `retries` – default=0
 - `max_retries` – default=6
 - `priority` – default=0
-- `retries` – default=0
+- `created_at` – default=CURRENT_TIMESTAMP(6)
+- `updated_at` – default=CURRENT_TIMESTAMP(6)
 
 ## Schema Files
 | File | Engine |

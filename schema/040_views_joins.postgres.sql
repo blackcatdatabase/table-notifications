@@ -1,4 +1,4 @@
--- Auto-generated from joins-postgres.yaml (map@sha1:29CF395A3A4C8964482083733F8E613ABFBEF5CC)
+-- Auto-generated from core\joins-postgres.yaml (map@sha1:29CF395A3A4C8964482083733F8E613ABFBEF5CC)
 -- engine: postgres
 -- view:   notifications_due
 
@@ -17,7 +17,7 @@ FROM notifications n
 WHERE n.status IN ($$pending$$,$$processing$$)
   AND (n.next_attempt_at IS NULL OR n.next_attempt_at <= now());
 
--- Auto-generated from joins-postgres.yaml (map@sha1:29CF395A3A4C8964482083733F8E613ABFBEF5CC)
+-- Auto-generated from core\joins-postgres.yaml (map@sha1:29CF395A3A4C8964482083733F8E613ABFBEF5CC)
 -- engine: postgres
 -- view:   notifications_queue_metrics
 

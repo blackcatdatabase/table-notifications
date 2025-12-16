@@ -1,4 +1,4 @@
--- Auto-generated from joins-mysql.yaml (map@sha1:DA70105A5B799F72A56FEAB71A5171F946A770D2)
+-- Auto-generated from core\joins-mysql.yaml (map@sha1:DA70105A5B799F72A56FEAB71A5171F946A770D2)
 -- engine: mysql
 -- view:   notifications_due
 
@@ -16,7 +16,7 @@ FROM notifications n
 WHERE n.status IN ('pending','processing')
   AND (n.next_attempt_at IS NULL OR n.next_attempt_at <= NOW());
 
--- Auto-generated from joins-mysql.yaml (map@sha1:DA70105A5B799F72A56FEAB71A5171F946A770D2)
+-- Auto-generated from core\joins-mysql.yaml (map@sha1:DA70105A5B799F72A56FEAB71A5171F946A770D2)
 -- engine: mysql
 -- view:   notifications_queue_metrics
 

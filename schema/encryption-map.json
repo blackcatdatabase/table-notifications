@@ -1,0 +1,68 @@
+{
+  "tables": {
+    "notifications": {
+      "columns": {
+        "created_at": {
+          "strategy": "passthrough"
+        },
+        "error": {
+          "strategy": "passthrough"
+        },
+        "channel": {
+          "strategy": "passthrough"
+        },
+        "id": {
+          "strategy": "passthrough"
+        },
+        "last_attempt_at": {
+          "strategy": "passthrough"
+        },
+        "locked_by": {
+          "strategy": "passthrough"
+        },
+        "locked_until": {
+          "strategy": "passthrough"
+        },
+        "max_retries": {
+          "strategy": "passthrough"
+        },
+        "next_attempt_at": {
+          "strategy": "passthrough"
+        },
+        "payload": {
+          "strategy": "passthrough"
+        },
+        "priority": {
+          "strategy": "passthrough"
+        },
+        "retries": {
+          "strategy": "passthrough"
+        },
+        "sent_at": {
+          "strategy": "passthrough"
+        },
+        "scheduled_at": {
+          "strategy": "passthrough"
+        },
+        "status": {
+          "strategy": "passthrough"
+        },
+        "template": {
+          "strategy": "passthrough"
+        },
+        "tenant_id": {
+          "strategy": "passthrough"
+        },
+        "updated_at": {
+          "strategy": "passthrough"
+        },
+        "user_id": {
+          "strategy": "passthrough"
+        },
+        "version": {
+          "strategy": "passthrough"
+        }
+      }
+    }
+  }
+}

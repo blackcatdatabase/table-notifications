@@ -1,6 +1,6 @@
 # 📦 Notifications
 
-> Auto-generated from [schema-map-postgres.yaml](https://github.com/blackcatacademy/blackcat-database/blob/main/scripts/schema/schema-map-postgres.yaml) (map@sha1:9f30f03eb2ba280e22d2319d26d21b39683a872a). Do not edit manually.
+> Auto-generated from [schema-map-postgres.yaml](https://github.com/blackcatacademy/blackcat-database/blob/main/scripts/schema/schema-map-postgres.yaml) (map@sha1:260cf51de6e2c742030665b35b370cdae36de2c6). Do not edit manually.
 > Targets: PHP 8.3; MySQL 8.x / MariaDB 10.4; Postgres 15+.
 
 ![PHP](https://img.shields.io/badge/PHP-8.3-blueviolet) ![DB](https://img.shields.io/badge/DB-MySQL%20%7C%20MariaDB%20%7C%20Postgres-informational) ![License](https://img.shields.io/badge/license-BlackCat%20Proprietary-red) ![Status](https://img.shields.io/badge/status-stable-success)
@@ -43,7 +43,7 @@
 ## At a Glance
 | Metric | Count |
 | --- | --- |
-| Columns | **20** |
+| Columns | **22** |
 | Indexes | **6** |
 | Foreign keys | **4** |
 | Unique keys | **0** |
@@ -58,7 +58,7 @@
 | Item | Value |
 | --- | --- |
 | Table | notifications |
-| Schema files | **10** |
+| Schema files | **11** |
 | Views | **4** |
 | Seeds | **0** |
 | Docs | **present** |
@@ -105,6 +105,7 @@ _No engine differences detected._
 - `priority` – default=0
 - `created_at` – default=CURRENT_TIMESTAMP(6)
 - `updated_at` – default=CURRENT_TIMESTAMP(6)
+- `version` – default=0
 
 ## Schema Files
 | File | Engine |
@@ -119,6 +120,7 @@ _No engine differences detected._
 | [040_views_joins.postgres.sql](schema/040_views_joins.postgres.sql) | postgres |
 | [040_views.mysql.sql](schema/040_views.mysql.sql) | mysql |
 | [040_views.postgres.sql](schema/040_views.postgres.sql) | postgres |
+| [encryption-map.json](schema/encryption-map.json) |  |
 
 ## Views
 | File | Engine | Source |

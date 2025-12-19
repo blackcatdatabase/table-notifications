@@ -1,4 +1,22 @@
--- Auto-generated from joins-mysql.yaml (map@sha1:DA70105A5B799F72A56FEAB71A5171F946A770D2)
+-- Auto-generated from core/joins-mysql.yaml (map@sha1:DA70105A5B799F72A56FEAB71A5171F946A770D2)
+-- engine: mysql
+-- view:   notifications_due
+
+CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_notifications_due AS
+SELECT
+  n.id,
+  n.channel,
+  n.status,
+  n.next_attempt_at,
+  n.last_attempt_at,
+  n.created_at,
+  TIMESTAMPDIFF(SECOND, n.created_at, NOW()) AS age_sec,
+  TIMESTAMPDIFF(SECOND, COALESCE(n.last_attempt_at, n.created_at), NOW()) AS idle_sec
+FROM notifications n
+WHERE n.status IN ('pending','processing')
+  AND (n.next_attempt_at IS NULL OR n.next_attempt_at <= NOW());
+
+-- Auto-generated from core/joins-mysql.yaml (map@sha1:DA70105A5B799F72A56FEAB71A5171F946A770D2)
 -- engine: mysql
 -- view:   notifications_due
 

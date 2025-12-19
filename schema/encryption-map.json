@@ -2,13 +2,13 @@
   "tables": {
     "notifications": {
       "columns": {
+        "channel": {
+          "strategy": "passthrough"
+        },
         "created_at": {
           "strategy": "passthrough"
         },
         "error": {
-          "strategy": "passthrough"
-        },
-        "channel": {
           "strategy": "passthrough"
         },
         "id": {
@@ -38,10 +38,10 @@
         "retries": {
           "strategy": "passthrough"
         },
-        "sent_at": {
+        "scheduled_at": {
           "strategy": "passthrough"
         },
-        "scheduled_at": {
+        "sent_at": {
           "strategy": "passthrough"
         },
         "status": {
